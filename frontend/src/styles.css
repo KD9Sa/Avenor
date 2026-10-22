@@ -195,6 +195,10 @@
     flex-direction: column;
     padding: 28px 16px 0;
     z-index: 30;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #41516a var(--navy);
   }
   .brand {
     display: flex;

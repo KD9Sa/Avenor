@@ -11,7 +11,7 @@
 
 ![Avenor overview with live ticket metrics, activity, service health and team workload](docs/assets/dashboard.jpg)
 
-All screenshots below were captured from the running Angular application connected to the real API and relational demonstration database.
+All screenshots below were captured from the running Angular application connected to the real API and relational demonstration database. Desktop images show the actual browser viewport, including its full-height fixed navigation.
 
 | Sign in | Ticket queue |
 |---|---|

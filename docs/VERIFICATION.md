@@ -17,7 +17,7 @@ Observed on **22 October 2026 (Africa/Cairo)**. These are actual local results, 
 | `dotnet test Avenor.sln --no-restore` | PASS, 25 tests, none skipped |
 | `./scripts/verify.ps1` | PASS end to end: Release backend build/tests, Angular production build, frontend tests |
 | `./scripts/dev.ps1 -NoInstall` | PASS, API and Angular served successfully; Ctrl+C stopped both ports (5080 and 4200) |
-| Angular production build | PASS, strict templates/types; final bundle 347.99 kB raw / 88.56 kB estimated transfer |
+| Angular production build | PASS, strict templates/types; current bundle 348.09 kB raw / 88.59 kB estimated transfer |
 | `npm test` | PASS, 10 tests, none skipped |
 | `python scripts/smoke.py http://127.0.0.1:4200` | PASS, all eight workflow groups through the actual Angular proxy/API/database |
 | `npm audit` | 0 reported vulnerabilities after targeted compatible build-tool patches |
@@ -53,6 +53,17 @@ Authentic JPEG screenshots are stored in `docs/assets/` and referenced relativel
 ## Corrections discovered during verification
 
 Resolved duplicate opening messages, an EF assignment navigation consistency issue, SQL retry/explicit transaction incompatibility, malformed payload errors, contrast failures, incorrect mobile heading spacing, and stale asynchronous responses after session/filter changes. Additional regression cases cover relevant business/security behavior. Closed mobile navigation is removed from keyboard/accessibility visibility.
+
+### Sidebar and screenshot correction · 22 October 2026
+
+The original full-page desktop captures extended beyond the browser's 1000px viewport, while the fixed sidebar correctly covered only the viewport. This produced a misleading blank area beneath the navigation in the saved images. Recaptured overview, queue, ticket detail, reports and administration directly from the running app within the actual 1440×1000 viewport bounds. No sidebar pixels were fabricated or extended.
+
+Also fixed a real short-screen issue: navigation content exceeded its viewport without an internal scrollbar. The sidebar now scrolls vertically and contains its overscroll. Browser geometry confirmed:
+
+- Desktop 1440×1000: sidebar top 0, bottom 1000, both at page top and after scrolling the document to its bottom.
+- Short desktop 1440×768: content height 953px; scrolling the sidebar brought the profile's bottom to 768px.
+- Mobile drawer 390×667: scrolling brought the profile's bottom to 666.8px, within the visible viewport.
+- Angular production build passes after the CSS change. No business logic or backend changes were made.
 
 ## Limits and unverified work
 
