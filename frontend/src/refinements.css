@@ -1,0 +1,312 @@
+/* Essential information uses AA-contrast text on both canvas and white surfaces.
+   Tint, line weight and space provide hierarchy without faint text. */
+:root {
+  --muted: #637086;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #68758a;
+  opacity: 1;
+}
+.page-heading p,
+.date-label,
+.eyebrow,
+.metric-label,
+.metric-caption,
+.panel-heading p,
+.chart-legend,
+.y-labels,
+.x-labels,
+.chart-bottom > span,
+.chart-bottom a,
+.health-stats > div,
+.health-footnote,
+.sla-score > span,
+.panel-footer,
+.workload-name .muted,
+.workload-footer,
+.table-sub,
+th,
+.ticket-table .table-sub,
+.ticket-table th,
+.assignee,
+.text-link,
+.pagination,
+.workspace-footer,
+.footer-brand,
+.breadcrumb,
+.ticket-tabs button,
+.back-link,
+.detail-meta,
+.message-heading time,
+.message-role,
+.reply-footer > span,
+.property-body label,
+.property-static,
+.tags > span,
+.customer-card > span:last-child,
+.sla-details > div,
+.activity-list p,
+.activity-list small,
+.closed-notice,
+.under-panel-note,
+.report-status-row small,
+.category-bars > div > div:first-child,
+.settings-description p,
+.settings-description > small,
+.settings-fields > small,
+.settings-info,
+.sla-policy-header,
+.sla-policy-header small,
+.modal-body > small,
+.notifications-toolbar,
+.notification-item > span > span,
+.notification-item small,
+.login-form-container > .eyebrow,
+.login-subtitle,
+.login-security,
+.login-form-container form label,
+.demo-login > p,
+.demo-login > small,
+.demo-label,
+.demo-roles button,
+.global-search,
+.global-search button,
+.you-label,
+.initial-screen p,
+.required {
+  color: #637086;
+}
+.breadcrumb strong,
+.ticket-title,
+.property-static strong,
+.sla-details strong,
+.health-stats strong,
+.workload-name > span {
+  color: #4d5f79;
+}
+.ticket-tabs button.selected,
+.reply-mode > button.selected,
+.text-button,
+.report-status-row .status-Open {
+  color: #3659e3;
+}
+.status-Open {
+  color: #3659e3;
+  background: #eef2ff;
+}
+.status-InProgress {
+  color: #705199;
+  background: #f3effb;
+}
+.status-Pending {
+  color: #94611d;
+  background: #fff4df;
+}
+.status-Resolved {
+  color: #187653;
+  background: #eaf5ef;
+}
+.status-Closed {
+  color: #637086;
+  background: #f0f2f5;
+}
+.priority {
+  color: #637086;
+}
+.priority-High {
+  color: #94611d;
+}
+.priority-Urgent {
+  color: #b84146;
+}
+.internal-message .message-role {
+  color: #8a6225;
+}
+.avatar-0 {
+  color: #4a5d9e;
+}
+.avatar-1 {
+  color: #885831;
+}
+.avatar-2 {
+  color: #426e56;
+}
+.avatar-3 {
+  color: #78578a;
+}
+.avatar-4 {
+  color: #476b83;
+}
+.avatar.tiny {
+  color: #586880;
+}
+.demo-indicator,
+.sidebar-profile div > span,
+.story-footer,
+.workspace-label div > span,
+.nav-label {
+  color: #a0b0c6;
+}
+.notification-item strong,
+.settings-fields label {
+  color: #41536e;
+}
+.form-error {
+  color: #a3414b;
+}
+.error-banner {
+  color: #a3414b;
+}
+.toast {
+  color: #3e6950;
+}
+.error-toast {
+  color: #a3414b;
+}
+.sidebar nav a {
+  font-size: 13px;
+}
+.sidebar nav a av-icon {
+  width: 18px;
+  height: 18px;
+}
+.workspace-label strong {
+  font-size: 12px;
+}
+.nav-label {
+  font-size: 10px;
+}
+.metric-label {
+  font-size: 12px;
+}
+.metric-caption {
+  font-size: 10px;
+}
+.panel-heading h2 {
+  font-size: 14px;
+}
+.panel-heading p {
+  font-size: 11px;
+}
+.table-sub {
+  font-size: 11px;
+}
+.ticket-title {
+  font-size: 12px;
+}
+.ticket-table .table-sub {
+  font-size: 10px;
+}
+.ticket-table td {
+  font-size: 11px;
+}
+.ticket-table th,
+th {
+  font-size: 11px;
+}
+.badge,
+.priority,
+.assignee {
+  font-size: 11px;
+}
+.workload-name strong {
+  font-size: 11px;
+}
+.workload-name .muted {
+  font-size: 10px;
+}
+.workload-name > span {
+  font-size: 11px;
+}
+.table-search input,
+.filters > select {
+  font-size: 12px;
+}
+.settings-fields label,
+.modal-body label {
+  font-size: 12px;
+}
+.property-body label,
+.property-static,
+.customer-card > span:last-child,
+.sla-details > div,
+.sla-details strong {
+  font-size: 11px;
+}
+.message-content > p {
+  font-size: 13px;
+}
+.message-heading {
+  font-size: 12px;
+}
+.message-heading time,
+.message-role {
+  font-size: 10px;
+}
+.activity-list p {
+  font-size: 11px;
+}
+.activity-list small {
+  font-size: 10px;
+}
+.ticket-tabs button {
+  font-size: 12px;
+}
+.global-search input,
+.breadcrumb,
+.date-label {
+  font-size: 12px;
+}
+.login-form-container form label {
+  font-size: 12px;
+}
+.demo-login > p {
+  font-size: 12px;
+}
+.demo-login > small,
+.login-security {
+  font-size: 10px;
+}
+@media (max-width: 1279px) {
+  .metric-label {
+    font-size: 11px;
+  }
+  .metric-caption {
+    font-size: 9px;
+  }
+  .date-label {
+    display: none;
+  }
+}
+@media (max-width: 639px) {
+  .breadcrumb {
+    font-size: 11px;
+  }
+  .panel-heading h2 {
+    font-size: 13px;
+  }
+  .ticket-table .table-sub {
+    font-size: 9px;
+  }
+  .overview-bottom .ticket-title {
+    font-size: 11px;
+  }
+  .overview-bottom .ticket-table .priority,
+  .overview-bottom .badge {
+    font-size: 10px;
+  }
+  .workload-name strong {
+    font-size: 10px;
+  }
+  .sla-details > div,
+  .sla-details strong {
+    font-size: 10px;
+  }
+  .message-content > p {
+    font-size: 12px;
+  }
+  .message-heading {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1380" viewBox="0 0 1440 1380" role="img" aria-labelledby="title desc">
+  <title id="title">Avenor design system</title>
+  <desc id="desc">The implemented brand palette, typography, spacing scale, control states and semantic component specimens. Navy 13243C, cobalt 3659E3 and amber C58A39 anchor a quiet, accessible support workspace.</desc>
+  <defs>
+    <style>
+      text{font-family:Inter,'Segoe UI',Arial,sans-serif;fill:#1C2940}
+      .white{fill:#fff}.muted{fill:#637086}.eyebrow{font-size:11px;font-weight:600;letter-spacing:1.6px}.section{font-size:20px;font-weight:600;letter-spacing:-.3px}.body{font-size:14px}.small{font-size:12px}.tiny{font-size:11px}.mono{font-family:'Cascadia Code',Consolas,monospace;font-size:12px}.label{font-size:12px;font-weight:600}.button{font-size:14px;font-weight:600}
+    </style>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="14" fill="#3659E3"/>
+      <path d="m16 48 14-32h4l14 32M23 36h18M31 48h2" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+  <rect width="1440" height="1380" fill="#fff"/>
+  <path d="M0 0h1440v244H0z" fill="#13243C"/>
+  <use href="#mark" x="64" y="48" width="46" height="46"/>
+  <text x="125" y="83" class="white" font-size="36" font-weight="650" letter-spacing="-1.3">avenor.</text>
+  <text x="1376" y="74" text-anchor="end" class="eyebrow" style="fill:#B2BED0">BRAND &amp; INTERFACE SYSTEM / 01</text>
+  <text x="64" y="163" class="white" font-size="44" font-weight="650" letter-spacing="-1.5">Clarity, by design.</text>
+  <text x="65" y="204" font-size="16" style="fill:#B2BED0">A calm foundation for thoughtful customer support. Precise, approachable, purpose-built.</text>
+
+  <text x="64" y="298" class="section">01 / Color with intention</text>
+  <text x="64" y="326" class="body muted">A confident foundation, a clear action color, and a little warmth.</text>
+  <rect x="64" y="350" width="424" height="128" rx="10" fill="#13243C"/>
+  <text x="88" y="392" class="eyebrow" style="fill:#B2BED0">FOUNDATION</text>
+  <text x="88" y="431" class="white" font-size="25" font-weight="600">Deep navy</text>
+  <text x="463" y="451" text-anchor="end" class="mono white">#13243C</text>
+  <rect x="508" y="350" width="424" height="128" rx="10" fill="#3659E3"/>
+  <text x="532" y="392" class="eyebrow" style="fill:#D6DFFF">PRIMARY ACTION</text>
+  <text x="532" y="431" class="white" font-size="25" font-weight="600">Avenor cobalt</text>
+  <text x="907" y="451" text-anchor="end" class="mono white">#3659E3</text>
+  <rect x="952" y="350" width="424" height="128" rx="10" fill="#C58A39"/>
+  <text x="976" y="392" class="eyebrow" style="fill:#13243C">WARM ACCENT</text>
+  <text x="976" y="431" font-size="25" font-weight="600" style="fill:#13243C">Golden amber</text>
+  <text x="1351" y="451" text-anchor="end" class="mono" style="fill:#13243C">#C58A39</text>
+
+  <g class="small">
+    <rect x="64" y="502" width="202" height="54" rx="6" fill="#F6F7F9" stroke="#E5E9F0"/>
+    <text x="64" y="581" font-weight="600">Canvas</text><text x="64" y="602" class="mono muted">#F6F7F9</text>
+    <rect x="286" y="502" width="202" height="54" rx="6" fill="#fff" stroke="#E5E9F0"/>
+    <text x="286" y="581" font-weight="600">Surface</text><text x="286" y="602" class="mono muted">#FFFFFF</text>
+    <rect x="508" y="502" width="202" height="54" rx="6" fill="#1C2940"/>
+    <text x="508" y="581" font-weight="600">Primary text</text><text x="508" y="602" class="mono muted">#1C2940</text>
+    <rect x="730" y="502" width="202" height="54" rx="6" fill="#637086"/>
+    <text x="730" y="581" font-weight="600">Supporting text</text><text x="730" y="602" class="mono muted">#637086</text>
+    <rect x="952" y="502" width="202" height="54" rx="6" fill="#E5E9F0"/>
+    <text x="952" y="581" font-weight="600">Border</text><text x="952" y="602" class="mono muted">#E5E9F0</text>
+    <rect x="1174" y="502" width="202" height="54" rx="6" fill="#7386A3"/>
+    <text x="1174" y="581" font-weight="600">Secondary</text><text x="1174" y="602" class="mono muted">#7386A3</text>
+  </g>
+  <path d="M64 636h1312" stroke="#E5E9F0"/>
+
+  <text x="64" y="684" class="section">02 / A readable rhythm</text>
+  <text x="64" y="713" class="body muted">Inter · Segoe UI · system sans-serif</text>
+  <text x="64" y="769" font-size="30" font-weight="650" letter-spacing="-.75">Make every conversation count.</text>
+  <text x="692" y="767" text-anchor="end" class="mono muted">30/38 · 650</text>
+  <text x="64" y="818" font-size="26" font-weight="650" letter-spacing="-.65">A clearer view of your day</text>
+  <text x="692" y="816" text-anchor="end" class="mono muted">26/34 · 650</text>
+  <text x="64" y="860" font-size="16" font-weight="600">Small details. Better support.</text>
+  <text x="692" y="858" text-anchor="end" class="mono muted">16/24 · 600</text>
+  <text x="64" y="897" class="body">Thoughtful tools give your team room to do their best work.</text>
+  <text x="692" y="895" text-anchor="end" class="mono muted">14/22 · 400</text>
+  <text x="64" y="929" class="small muted">Last updated just now · timestamps and metadata</text>
+  <text x="692" y="927" text-anchor="end" class="mono muted">12/18 · 500</text>
+
+  <path d="M746 672v276" stroke="#E5E9F0"/>
+  <text x="786" y="684" class="section">03 / Space to breathe</text>
+  <text x="786" y="713" class="body muted">A consistent 4 px foundation.</text>
+  <g fill="#EEF2FF">
+    <rect x="786" y="755" width="8" height="72" rx="3"/>
+    <rect x="842" y="755" width="16" height="72" rx="3"/>
+    <rect x="906" y="755" width="24" height="72" rx="3"/>
+    <rect x="978" y="755" width="32" height="72" rx="3"/>
+    <rect x="1058" y="755" width="48" height="72" rx="3"/>
+    <rect x="1154" y="755" width="64" height="72" rx="3"/>
+    <rect x="1266" y="755" width="96" height="72" rx="3"/>
+  </g>
+  <g stroke="#3659E3" stroke-width="2">
+    <path d="M790 780v22M850 780v22M918 780v22M994 780v22M1082 780v22M1186 780v22M1314 780v22"/>
+  </g>
+  <g class="mono muted" text-anchor="middle">
+    <text x="790" y="852">4</text><text x="850" y="852">8</text><text x="918" y="852">12</text><text x="994" y="852">16</text><text x="1082" y="852">24</text><text x="1186" y="852">32</text><text x="1314" y="852">48</text>
+  </g>
+  <text x="786" y="897" class="small muted">6 px controls · 10 px cards · 14 px dialogs</text>
+  <text x="786" y="925" class="small muted">640 / 960 / 1280 px responsive breakpoints</text>
+  <path d="M64 979h1312" stroke="#E5E9F0"/>
+
+  <text x="64" y="1027" class="section">04 / Familiar, purposeful components</text>
+  <text x="64" y="1055" class="body muted">Clear labels, visible focus, restrained shape, and meaning beyond color.</text>
+  <text x="64" y="1099" class="eyebrow muted">ACTIONS &amp; FOCUS</text>
+  <rect x="60" y="1116" width="159" height="48" rx="10" fill="none" stroke="#3659E3" stroke-opacity=".32" stroke-width="3"/>
+  <rect x="64" y="1120" width="151" height="40" rx="6" fill="#3659E3"/>
+  <path d="M83 1133v14m-7-7h14" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+  <text x="104" y="1145" class="button white">New ticket</text>
+  <rect x="231" y="1120" width="139" height="40" rx="6" fill="#fff" stroke="#E5E9F0"/>
+  <text x="300" y="1145" text-anchor="middle" class="button">View all tickets</text>
+  <rect x="386" y="1120" width="126" height="40" rx="6" fill="#E5E9F0"/>
+  <text x="449" y="1145" text-anchor="middle" class="button muted">Saving…</text>
+  <text x="64" y="1197" class="eyebrow muted">SEMANTIC STATUS</text>
+  <rect x="64" y="1214" width="84" height="28" rx="14" fill="#EEF2FF"/><circle cx="80" cy="1228" r="3" fill="#3659E3"/><text x="90" y="1232" class="small" style="fill:#3659E3">Open</text>
+  <rect x="160" y="1214" width="102" height="28" rx="14" fill="#EAF5EF"/><circle cx="176" cy="1228" r="3" fill="#187653"/><text x="186" y="1232" class="small" style="fill:#187653">Resolved</text>
+  <rect x="274" y="1214" width="97" height="28" rx="14" fill="#FFF4DF"/><circle cx="290" cy="1228" r="3" fill="#94611D"/><text x="300" y="1232" class="small" style="fill:#94611D">Pending</text>
+  <rect x="383" y="1214" width="100" height="28" rx="14" fill="#FCEEF0"/><circle cx="399" cy="1228" r="3" fill="#B84146"/><text x="409" y="1232" class="small" style="fill:#B84146">Overdue</text>
+
+  <rect x="574" y="1081" width="366" height="180" rx="10" fill="#F6F7F9" stroke="#E5E9F0"/>
+  <text x="598" y="1113" class="label">Subject</text>
+  <rect x="598" y="1127" width="318" height="42" rx="6" fill="#fff" stroke="#B84146"/>
+  <text x="612" y="1153" class="body muted">How can we help?</text>
+  <circle cx="606" cy="1194" r="7" fill="none" stroke="#B84146" stroke-width="1.5"/><path d="M606 1190v4m0 2v1" stroke="#B84146" stroke-width="1.5"/>
+  <text x="620" y="1198" class="small" style="fill:#B84146">Enter a subject for your ticket.</text>
+  <text x="598" y="1237" class="tiny muted">Persistent labels. Specific, helpful validation.</text>
+
+  <rect x="968" y="1081" width="408" height="180" rx="10" fill="#fff" stroke="#E5E9F0"/>
+  <rect x="992" y="1105" width="34" height="34" rx="9" fill="#EAF5EF"/>
+  <path d="m1001 1122 5 5 10-11" fill="none" stroke="#187653" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1040" y="1128" font-size="15" font-weight="600">A little clarity goes a long way.</text>
+  <text x="992" y="1174" class="body muted">Useful hierarchy, calm surfaces, and space</text>
+  <text x="992" y="1197" class="body muted">for the conversations that matter.</text>
+  <text x="992" y="1237" class="tiny muted">1 px border · 10 px radius · 24 px inset</text>
+  <path d="M64 1305h1312" stroke="#E5E9F0"/>
+  <text x="64" y="1343" class="small muted">AVENOR / A CLEARER WAY TO CARE</text>
+  <text x="1376" y="1343" text-anchor="end" class="small muted">Design system specimens · not application screenshots</text>
+</svg>

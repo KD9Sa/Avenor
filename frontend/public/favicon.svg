@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Avenor avenue mark">
+  <rect width="64" height="64" rx="14" fill="#3659E3"/>
+  <path d="m16 48 14-32h4l14 32M23 36h18" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M31 48h2" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+</svg>

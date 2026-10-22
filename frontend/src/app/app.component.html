@@ -1,0 +1,1943 @@
+@if (initializing()) {
+  <div class="initial-screen">
+    <span class="brand-mark">A</span><span class="spinner"></span>
+    <p>Opening your workspace…</p>
+  </div>
+} @else if (!user()) {
+  <main class="login-layout">
+    <section class="login-story">
+      <a class="brand" href="#"
+        ><span class="brand-mark"
+          ><svg viewBox="0 0 40 40">
+            <path
+              d="m9 29 9-20h4l9 20h-6l-5-12-5 12zm6-7h11v4H15z"
+              fill="currentColor"
+            /></svg></span
+        ><span>avenor<span class="brand-period">.</span></span></a
+      >
+      <div class="login-story-body">
+        <span class="eyebrow light"
+          >THOUGHTFUL SUPPORT. LASTING CONNECTIONS.</span
+        >
+        <h1>
+          Every conversation.<br />
+          A clearer way forward.
+        </h1>
+        <p>
+          Bring your people, conversations, and resolutions together in one
+          thoughtfully simple workspace.
+        </p>
+        <div class="story-lines">
+          <div>
+            <span><av-icon name="chat" /></span>
+            <div>
+              <strong>Make every customer feel heard</strong>
+              <p>A complete conversation, never a disconnected ticket.</p>
+            </div>
+          </div>
+          <div>
+            <span><av-icon name="team" /></span>
+            <div>
+              <strong>Help your team do their best work</strong>
+              <p>The right context, the right owner, the next clear step.</p>
+            </div>
+          </div>
+          <div>
+            <span><av-icon name="reports" /></span>
+            <div>
+              <strong>Turn better service into a habit</strong>
+              <p>Understand your performance. Keep moving forward.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="story-footer">
+        <span>A clearer way to care.</span
+        ><span>© {{ today.getFullYear() }} Avenor</span>
+      </div>
+    </section>
+    <section class="login-form-side">
+      <div class="login-form-container">
+        <span class="eyebrow">YOUR SUPPORT, CONNECTED</span>
+        <h2>Welcome back</h2>
+        <p class="login-subtitle">Sign in to your team's workspace.</p>
+        <form (ngSubmit)="signIn()">
+          <label for="organization">Workspace</label>
+          <div class="input-icon">
+            <av-icon name="globe" /><input
+              id="organization"
+              name="organization"
+              [(ngModel)]="login.organizationSlug"
+              required
+              autocomplete="organization"
+              placeholder="your-workspace"
+            />
+          </div>
+          <label for="email">Email address</label>
+          <div class="input-icon">
+            <av-icon name="mail" /><input
+              id="email"
+              name="email"
+              type="email"
+              [(ngModel)]="login.email"
+              required
+              autocomplete="username"
+              placeholder="you@company.com"
+            />
+          </div>
+          <label for="password">Password</label>
+          <div class="input-icon">
+            <av-icon name="lock" /><input
+              id="password"
+              name="password"
+              type="password"
+              [(ngModel)]="login.password"
+              required
+              autocomplete="current-password"
+              placeholder="Enter your password"
+            />
+          </div>
+          @if (loginError) {
+            <p class="form-error" role="alert">{{ loginError }}</p>
+          }
+          <button class="button primary login-submit" [disabled]="loginBusy()">
+            @if (loginBusy()) {
+              <span class="spinner"></span> Signing in…
+            } @else {
+              Sign in to workspace <av-icon name="arrow" />
+            }
+          </button>
+        </form>
+        <div class="demo-login">
+          <span class="demo-label"
+            ><span class="status-dot"></span> EXPLORE THE DEMO</span
+          >
+          <p>Try a role with realistic demonstration data.</p>
+          <div class="demo-roles">
+            <button type="button" (click)="fillDemo('Admin')">
+              <av-icon name="shield" /> Admin</button
+            ><button type="button" (click)="fillDemo('Agent')">
+              <av-icon name="team" /> Agent</button
+            ><button type="button" (click)="fillDemo('Customer')">
+              <av-icon name="customers" /> Customer
+            </button>
+          </div>
+          <small
+            >Demo access is available only when the server has demo seeding
+            enabled.</small
+          >
+        </div>
+        <p class="login-security">
+          <av-icon name="shield" /> Your workspace. Secure by design.
+        </p>
+      </div>
+    </section>
+  </main>
+} @else {
+  <div class="app-shell">
+    @if (mobileNav) {
+      <button
+        class="sidebar-scrim"
+        aria-label="Close navigation"
+        (click)="mobileNav = false"
+      ></button>
+    }
+    <aside id="primary-sidebar" class="sidebar" [class.mobile-open]="mobileNav">
+      <a
+        href="#/overview"
+        class="brand"
+        (click)="
+          navigate(staff() ? 'overview' : 'tickets'); $event.preventDefault()
+        "
+        ><span class="brand-mark"
+          ><svg viewBox="0 0 40 40">
+            <path
+              d="m9 29 9-20h4l9 20h-6l-5-12-5 12zm6-7h11v4H15z"
+              fill="currentColor"
+            /></svg></span
+        ><span>avenor<span class="brand-period">.</span></span></a
+      >
+      <div class="workspace-label">
+        <span class="workspace-avatar">{{
+          initials(user()!.organizationName)
+        }}</span>
+        <div>
+          <strong>{{ user()!.organizationName }}</strong
+          ><span>{{
+            user()!.role === "Customer"
+              ? "Customer portal"
+              : "Support workspace"
+          }}</span>
+        </div>
+        <span class="workspace-dot"></span>
+      </div>
+      <span class="nav-label">WORKSPACE</span>
+      <nav aria-label="Main navigation">
+        @if (staff()) {
+          <a
+            href="#/overview"
+            [class.active]="page() === 'overview'"
+            (click)="navigate('overview'); $event.preventDefault()"
+            ><av-icon name="overview" />Overview</a
+          >
+        }
+        <a
+          href="#/tickets"
+          [class.active]="page() === 'tickets' || page() === 'detail'"
+          (click)="showQueue(''); $event.preventDefault()"
+          ><av-icon name="ticket" />{{ staff() ? "All tickets" : "My tickets" }}
+          @if (dashboard() && staff()) {
+            <span class="nav-count">{{ dashboard()!.openTickets }}</span>
+          }
+        </a>
+        @if (staff()) {
+          <a
+            href="#/customers"
+            [class.active]="page() === 'customers'"
+            (click)="navigate('customers'); $event.preventDefault()"
+            ><av-icon name="customers" />Customers</a
+          ><a
+            href="#/team"
+            [class.active]="page() === 'team'"
+            (click)="navigate('team'); $event.preventDefault()"
+            ><av-icon name="team" />Team members</a
+          ><a
+            href="#/reports"
+            [class.active]="page() === 'reports'"
+            (click)="navigate('reports'); $event.preventDefault()"
+            ><av-icon name="reports" />Reports</a
+          >
+        }
+      </nav>
+      @if (staff()) {
+        <span class="nav-label views-label">TICKET VIEWS</span>
+        <nav aria-label="Ticket views">
+          <a href="#/tickets" (click)="showQueue('me'); $event.preventDefault()"
+            ><span class="view-dot blue"></span>Assigned to me</a
+          ><a
+            href="#/tickets"
+            (click)="showQueue('unassigned'); $event.preventDefault()"
+            ><span class="view-dot amber"></span>Unassigned
+            @if (dashboard()) {
+              <span class="view-count">{{
+                dashboard()!.unassignedTickets
+              }}</span>
+            }
+          </a>
+        </nav>
+      }
+      <div class="sidebar-bottom">
+        <div class="workspace-note">
+          <span class="workspace-note-icon"><av-icon name="sparkle" /></span
+          ><strong>A little clarity goes a long way.</strong>
+          <p>Great support starts with the next helpful conversation.</p>
+        </div>
+        @if (admin()) {
+          <nav aria-label="Administration">
+            <a
+              href="#/audit"
+              [class.active]="page() === 'audit'"
+              (click)="navigate('audit'); $event.preventDefault()"
+              ><av-icon name="audit" />Audit history</a
+            ><a
+              href="#/settings"
+              [class.active]="page() === 'settings'"
+              (click)="navigate('settings'); $event.preventDefault()"
+              ><av-icon name="settings" />Settings</a
+            >
+          </nav>
+        }
+        <div class="demo-indicator"><span></span> Demonstration workspace</div>
+        <div class="sidebar-profile">
+          <span class="avatar self">{{ initials(user()!.name) }}</span>
+          <div>
+            <strong>{{ user()!.name }}</strong
+            ><span>{{
+              user()!.role === "Admin" ? "Workspace admin" : user()!.role
+            }}</span>
+          </div>
+          <button
+            class="icon-button"
+            title="Sign out"
+            aria-label="Sign out"
+            (click)="signOut()"
+          >
+            <av-icon name="logout" />
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="workspace-main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <button
+            class="icon-button mobile-menu"
+            aria-label="Open navigation"
+            aria-controls="primary-sidebar"
+            [attr.aria-expanded]="mobileNav"
+            (click)="mobileNav = !mobileNav"
+          >
+            <av-icon name="menu" /></button
+          ><span>Workspace</span><av-icon name="chevron" /><strong>{{
+            pageTitle()
+          }}</strong>
+        </div>
+        <div class="topbar-actions">
+          <form class="global-search" (ngSubmit)="searchTickets()">
+            <av-icon name="search" /><input
+              name="global-search"
+              aria-label="Search tickets"
+              placeholder="Search tickets…"
+              [(ngModel)]="globalSearch"
+            /><button
+              type="submit"
+              title="Search tickets"
+              aria-label="Submit search"
+            >
+              <av-icon name="arrow" />
+            </button>
+          </form>
+          <span class="topbar-divider"></span
+          ><button
+            class="icon-button notification-button"
+            aria-label="Open notifications"
+            (click)="openNotifications()"
+          >
+            <av-icon name="bell" />
+            @if (unread()) {
+              <span class="notification-dot"></span>
+            }
+          </button>
+          <div class="profile-menu">
+            <button
+              class="avatar self profile-avatar"
+              aria-label="Open account menu"
+              [attr.aria-expanded]="profileOpen"
+              (click)="profileOpen = !profileOpen"
+            >
+              {{ initials(user()!.name) }}
+            </button>
+            @if (profileOpen) {
+              <div class="profile-dropdown">
+                <strong>{{ user()!.name }}</strong
+                ><span>{{ user()!.email }}</span
+                ><button (click)="signOut()">
+                  <av-icon name="logout" /> Sign out
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </header>
+      <main id="main-content" class="content" [attr.aria-busy]="loading()">
+        @if (pageError()) {
+          <div class="error-banner" role="alert">
+            <av-icon name="info" />
+            <p>{{ pageError() }}</p>
+            <button class="button secondary small-button" (click)="loadPage()">
+              Try again
+            </button>
+          </div>
+        }
+        @if (loading()) {
+          <div
+            class="loading-bar"
+            role="status"
+            aria-label="Loading page"
+          ></div>
+        }
+        @if (page() === "overview") {
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow greeting-eyebrow">
+                <span class="small-sun">✳</span> YOUR TEAM, AT A GLANCE
+              </div>
+              <h1>
+                {{ greeting }}, {{ user()!.name.split(" ")[0] }}
+                <span class="greeting-dot">.</span>
+              </h1>
+              <p>Here's what's happening with your support today.</p>
+            </div>
+            <div class="heading-actions">
+              <span class="date-label"
+                ><av-icon name="calendar" />{{
+                  today | date: "EEE, MMM d, y"
+                }}</span
+              ><button class="button primary" (click)="openCreate()">
+                <av-icon name="plus" />Create ticket
+              </button>
+            </div>
+          </div>
+          @if (dashboard(); as data) {
+            <div class="section-context">
+              <span><span class="live-dot"></span> Support overview</span
+              ><select
+                aria-label="Overview reporting period"
+                [(ngModel)]="days"
+                (ngModelChange)="loadPage()"
+              >
+                <option [ngValue]="7">Last 7 days</option>
+                <option [ngValue]="30">Last 30 days</option>
+                <option [ngValue]="90">Last 90 days</option>
+              </select>
+            </div>
+            <div class="metric-grid">
+              <article class="metric-card">
+                <div class="metric-label">
+                  Total tickets<span class="metric-icon blue-soft"
+                    ><av-icon name="ticket"
+                  /></span>
+                </div>
+                <div class="metric-value">{{ data.totalTickets }}</div>
+                <span class="metric-caption"
+                  ><span class="metric-marker blue"></span>Created in the last
+                  {{ days }} days</span
+                >
+              </article>
+              <article class="metric-card">
+                <div class="metric-label">
+                  Open tickets<span class="metric-icon amber-soft"
+                    ><av-icon name="inbox"
+                  /></span>
+                </div>
+                <div class="metric-value">{{ data.openTickets }}</div>
+                <span class="metric-caption"
+                  ><span class="metric-marker amber"></span>Waiting for your
+                  next move</span
+                >
+              </article>
+              <article class="metric-card">
+                <div class="metric-label">
+                  Resolved tickets<span class="metric-icon green-soft"
+                    ><av-icon name="checkcircle"
+                  /></span>
+                </div>
+                <div class="metric-value">{{ data.resolvedTickets }}</div>
+                <span class="metric-caption"
+                  ><span class="metric-marker green"></span>Conversations
+                  brought to a close</span
+                >
+              </article>
+              <article class="metric-card">
+                <div class="metric-label">
+                  Avg. first response<span class="metric-icon purple-soft"
+                    ><av-icon name="clock"
+                  /></span>
+                </div>
+                <div class="metric-value time-metric">
+                  {{ responseTime(data.averageResponseMinutes) }}
+                </div>
+                <span class="metric-caption"
+                  ><span class="metric-marker purple"></span>Based on responded
+                  tickets</span
+                >
+              </article>
+            </div>
+            <div class="overview-charts">
+              <section class="panel volume-panel">
+                <div class="panel-heading">
+                  <div>
+                    <h2>Ticket activity</h2>
+                    <p>Created and resolved by UTC day.</p>
+                  </div>
+                  <div class="chart-legend">
+                    <span><i class="legend-line"></i>Created</span
+                    ><span><i class="legend-line resolved"></i>Resolved</span>
+                  </div>
+                </div>
+                <div class="line-chart">
+                  <div class="y-labels">
+                    <span>{{ chartMaximum() }}</span
+                    ><span>{{ chartMaximum() / 2 | number: "1.0-0" }}</span
+                    ><span>0</span>
+                  </div>
+                  <div class="chart-canvas">
+                    <svg
+                      viewBox="0 0 600 165"
+                      preserveAspectRatio="none"
+                      role="img"
+                      aria-label="Ticket volume chart. Created and resolved ticket counts by UTC day."
+                    >
+                      <path
+                        d="M0 0H600 M0 72.5H600 M0 145H600"
+                        class="chart-grid"
+                      />
+                      <path
+                        [attr.d]="createdPath() + ' L600,145 L0,145 Z'"
+                        class="chart-area"
+                      />
+                      <path
+                        [attr.d]="createdPath()"
+                        class="chart-line created"
+                      />
+                      <path
+                        [attr.d]="resolvedPath()"
+                        class="chart-line resolved"
+                      />
+                    </svg>
+                    <div class="x-labels">
+                      @for (
+                        point of data.volume;
+                        track point.date;
+                        let i = $index
+                      ) {
+                        @if (
+                          data.volume.length <= 7 ||
+                          i % (days === 30 ? 5 : 15) === 0 ||
+                          i === data.volume.length - 1
+                        ) {
+                          <span>{{ chartLabel(point.date) }}</span>
+                        }
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="chart-bottom">
+                  <span
+                    ><span class="live-dot"></span>Every conversation is a
+                    chance to help.</span
+                  ><a
+                    href="#/reports"
+                    (click)="navigate('reports'); $event.preventDefault()"
+                    >View reports<av-icon name="arrow"
+                  /></a>
+                </div>
+              </section>
+              <section class="panel health-panel">
+                <div class="panel-heading">
+                  <div>
+                    <h2>Service health</h2>
+                    <p>Keeping your promises to customers.</p>
+                  </div>
+                  <span class="health-icon"><av-icon name="shield" /></span>
+                </div>
+                <div class="sla-score">
+                  <strong
+                    >{{ data.slaCompliance | number: "1.0-1"
+                    }}<span>%</span></strong
+                  ><span>SLA compliance</span>
+                </div>
+                <div class="sla-progress">
+                  <span [style.width.%]="data.slaCompliance"></span>
+                </div>
+                <div class="health-stats">
+                  <div>
+                    <span class="small-status green"></span
+                    ><span>Within service targets</span
+                    ><strong
+                      >{{ data.slaCompliance | number: "1.0-0" }}%</strong
+                    >
+                  </div>
+                  <div>
+                    <span class="small-status amber"></span
+                    ><span>Overdue tickets</span
+                    ><strong [class.danger-text]="data.overdueTickets > 0">{{
+                      data.overdueTickets
+                    }}</strong>
+                  </div>
+                </div>
+                <div class="health-footnote">
+                  <av-icon name="info" /><span
+                    >Response and resolution deadlines tracked in real
+                    time.</span
+                  >
+                </div>
+              </section>
+            </div>
+            <div class="overview-bottom">
+              <section class="panel queue-panel">
+                <div class="panel-heading">
+                  <div class="title-with-count">
+                    <h2>Your attention, where it matters</h2>
+                    <span class="subtle-count">{{
+                      queueTickets().length
+                    }}</span>
+                  </div>
+                  <a
+                    class="text-link"
+                    href="#/tickets"
+                    (click)="showQueue(''); $event.preventDefault()"
+                    >View all tickets<av-icon name="arrow"
+                  /></a>
+                </div>
+                <av-ticket-table
+                  [tickets]="queueTickets()"
+                  (open)="openTicket($event)"
+                />
+                <div class="panel-footer">
+                  <span
+                    ><av-icon name="clock" />Prioritized by urgency and response
+                    deadline</span
+                  >
+                </div>
+              </section>
+              <section class="panel workload-panel">
+                <div class="panel-heading">
+                  <div>
+                    <h2>Team workload</h2>
+                    <p>Better support is a team effort.</p>
+                  </div>
+                  <av-icon name="team" />
+                </div>
+                <div class="workload-list">
+                  @for (
+                    member of data.team.slice(0, 4);
+                    track member.id;
+                    let i = $index
+                  ) {
+                    <div class="workload-row">
+                      <span [class]="'avatar avatar-' + i">{{
+                        initials(member.name)
+                      }}</span>
+                      <div>
+                        <div class="workload-name">
+                          <strong>{{ member.name }}</strong
+                          ><span
+                            >{{ member.activeTickets }}
+                            <span class="muted">active</span></span
+                          >
+                        </div>
+                        <div class="workload-track">
+                          <span
+                            [style.width.%]="teamPercent(member.activeTickets)"
+                            [class]="'workload-fill fill-' + i"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  } @empty {
+                    <p class="empty-inline">No active team members.</p>
+                  }
+                </div>
+                <a
+                  class="workload-footer"
+                  href="#/team"
+                  (click)="navigate('team'); $event.preventDefault()"
+                  >Meet your team<av-icon name="arrow"
+                /></a>
+              </section>
+            </div>
+            <div class="workspace-footer">
+              <span
+                ><span class="live-dot"></span>All systems ready. Every customer
+                matters.</span
+              ><span
+                >Made for thoughtful support
+                <span class="footer-brand">avenor.</span></span
+              >
+            </div>
+          }
+        }
+        @if (page() === "tickets") {
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow">EVERY CONVERSATION, IN ONE PLACE</span>
+              <h1>
+                {{ staff() ? "All tickets" : "My tickets"
+                }}<span class="heading-count">{{ tickets().total }}</span>
+              </h1>
+              <p>
+                {{
+                  staff()
+                    ? "Keep the conversation moving. Make the next helpful move."
+                    : "Track your requests and stay in touch with the support team."
+                }}
+              </p>
+            </div>
+            <button class="button primary" (click)="openCreate()">
+              <av-icon name="plus" />Create ticket
+            </button>
+          </div>
+          <section class="panel tickets-panel">
+            <div class="ticket-tabs">
+              <button
+                [class.selected]="status === ''"
+                (click)="status = ''; filterTickets()"
+              >
+                All tickets</button
+              ><button
+                [class.selected]="status === 'Open'"
+                (click)="status = 'Open'; filterTickets()"
+              >
+                <span class="small-status blue"></span>Open</button
+              ><button
+                [class.selected]="status === 'InProgress'"
+                (click)="status = 'InProgress'; filterTickets()"
+              >
+                In progress</button
+              ><button
+                [class.selected]="status === 'Pending'"
+                (click)="status = 'Pending'; filterTickets()"
+              >
+                Pending</button
+              ><button
+                [class.selected]="status === 'Resolved'"
+                (click)="status = 'Resolved'; filterTickets()"
+              >
+                Resolved</button
+              ><button
+                [class.selected]="status === 'Closed'"
+                (click)="status = 'Closed'; filterTickets()"
+              >
+                Closed
+              </button>
+            </div>
+            <div class="filters">
+              <form
+                class="table-search input-icon"
+                (ngSubmit)="filterTickets()"
+              >
+                <av-icon name="search" /><input
+                  name="ticket-search"
+                  aria-label="Search ticket subject, customer or number"
+                  [(ngModel)]="search"
+                  placeholder="Search tickets, customers, or ticket ID…"
+                /><button
+                  type="submit"
+                  class="input-submit"
+                  aria-label="Search ticket queue"
+                >
+                  <av-icon name="arrow" />
+                </button>
+              </form>
+              <select
+                aria-label="Filter by priority"
+                [(ngModel)]="priority"
+                (ngModelChange)="filterTickets()"
+              >
+                <option value="">All priorities</option>
+                @for (value of priorities; track value) {
+                  <option [value]="value">{{ value }}</option>
+                }
+              </select>
+              @if (staff()) {
+                <select
+                  aria-label="Filter by assignee"
+                  [(ngModel)]="assignee"
+                  (ngModelChange)="filterTickets()"
+                >
+                  <option value="">All assignees</option>
+                  <option value="me">Assigned to me</option>
+                  <option value="unassigned">Unassigned</option>
+                  @for (agent of agents(); track agent.id) {
+                    <option [value]="agent.id">{{ agent.name }}</option>
+                  }
+                </select>
+              }
+              <select
+                aria-label="Sort tickets"
+                [(ngModel)]="sort"
+                (ngModelChange)="filterTickets()"
+              >
+                <option value="updatedAt">Last updated</option>
+                <option value="createdAt">Date created</option>
+                <option value="priority">Priority</option>
+                <option value="subject">Subject</option>
+                <option value="number">Ticket number</option></select
+              ><button
+                class="icon-button bordered"
+                [attr.aria-label]="
+                  direction === 'desc' ? 'Sort ascending' : 'Sort descending'
+                "
+                [title]="
+                  direction === 'desc' ? 'Descending order' : 'Ascending order'
+                "
+                (click)="
+                  direction = direction === 'desc' ? 'asc' : 'desc';
+                  filterTickets()
+                "
+              >
+                <span class="sort-symbol">{{
+                  direction === "desc" ? "↓" : "↑"
+                }}</span>
+              </button>
+            </div>
+            <av-ticket-table
+              [tickets]="tickets().items"
+              (open)="openTicket($event)"
+            />
+            <div class="pagination">
+              <span
+                >Showing
+                {{ tickets().total ? (ticketPage - 1) * 10 + 1 : 0 }}–{{
+                  ticketPage * 10 < tickets().total
+                    ? ticketPage * 10
+                    : tickets().total
+                }}
+                of {{ tickets().total }} tickets</span
+              >
+              <div>
+                <button
+                  class="button secondary small-button"
+                  [disabled]="ticketPage === 1 || loading()"
+                  (click)="ticketPageBy(-1)"
+                >
+                  Previous</button
+                ><span class="page-number">{{ ticketPage }}</span
+                ><button
+                  class="button secondary small-button"
+                  [disabled]="ticketPage * 10 >= tickets().total || loading()"
+                  (click)="ticketPageBy(1)"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </section>
+        }
+        @if (page() === "detail" && detail(); as detail) {
+          <a
+            href="#/tickets"
+            class="back-link"
+            (click)="navigate('tickets'); $event.preventDefault()"
+            ><av-icon name="back" />Back to tickets</a
+          >
+          <div class="detail-heading">
+            <div class="detail-meta">
+              <span>#AV-{{ detail.ticket.number }}</span
+              ><span [class]="'badge status-' + detail.ticket.status"
+                ><span class="status-dot"></span
+                >{{ label(detail.ticket.status) }}</span
+              ><span class="muted"
+                >{{ detail.ticket.channel }} ·
+                {{ detail.ticket.createdAt | date: "MMM d, y, h:mm a" }}</span
+              >
+            </div>
+            <h1>{{ detail.ticket.subject }}</h1>
+          </div>
+          <div class="ticket-detail-grid">
+            <section class="panel conversation-panel">
+              <div class="panel-heading">
+                <h2>Conversation</h2>
+                <span class="muted"
+                  >{{ detail.messages.length }} {{ detail.messages.length === 1 ? "message" : "messages" }}</span
+                >
+              </div>
+              <div class="messages">
+                @for (message of detail.messages; track message.id) {
+                  <article
+                    class="message"
+                    [class.internal-message]="message.isInternal"
+                  >
+                    <span
+                      [class]="
+                        'avatar avatar-' +
+                        (message.authorRole === 'Customer' ? 1 : 0)
+                      "
+                      >{{ initials(message.authorName) }}</span
+                    >
+                    <div class="message-content">
+                      <div class="message-heading">
+                        <strong>{{ message.authorName }}</strong
+                        ><span class="message-role">{{
+                          message.isInternal
+                            ? "Internal note"
+                            : message.authorRole === "Customer"
+                              ? "Customer"
+                              : "Support team"
+                        }}</span
+                        ><time>{{
+                          message.createdAt | date: "MMM d, h:mm a"
+                        }}</time>
+                      </div>
+                      <p>{{ message.body }}</p>
+                    </div>
+                  </article>
+                }
+              </div>
+              @if (detail.ticket.status !== "Closed") {
+                <form class="reply-form" (ngSubmit)="sendReply()">
+                  <div class="reply-mode">
+                    @if (staff()) {
+                      <button
+                        type="button"
+                        [class.selected]="!internalNote"
+                        (click)="internalNote = false"
+                      >
+                        <av-icon name="chat" />Public reply</button
+                      ><button
+                        type="button"
+                        [class.selected]="internalNote"
+                        (click)="internalNote = true"
+                      >
+                        <av-icon name="lock" />Internal note
+                      </button>
+                    } @else {
+                      <strong>Reply to the team</strong>
+                    }
+                  </div>
+                  <label class="sr-only" for="reply">{{
+                    internalNote ? "Internal note" : "Reply message"
+                  }}</label
+                  ><textarea
+                    id="reply"
+                    name="reply"
+                    [(ngModel)]="reply"
+                    [placeholder]="
+                      internalNote
+                        ? 'Share context with your team. Customers cannot see internal notes.'
+                        : 'Write a thoughtful reply…'
+                    "
+                    rows="5"
+                    maxlength="10000"
+                    required
+                  ></textarea>
+                  @if (replyError) {
+                    <p class="form-error" role="alert">{{ replyError }}</p>
+                  }
+                  <div class="reply-footer">
+                    <span
+                      ><av-icon [name]="internalNote ? 'lock' : 'globe'" />{{
+                        internalNote
+                          ? "Only visible to your team"
+                          : "Visible to the customer and your team"
+                      }}</span
+                    ><button
+                      class="button primary"
+                      [disabled]="saving() || !reply.trim()"
+                    >
+                      {{
+                        saving()
+                          ? "Sending…"
+                          : internalNote
+                            ? "Add note"
+                            : "Send reply"
+                      }}<av-icon name="arrow" />
+                    </button>
+                  </div>
+                </form>
+              } @else {
+                <div class="closed-notice">
+                  <av-icon name="lock" />This ticket is closed. Create a new
+                  ticket if you need more help.
+                </div>
+              }
+            </section>
+            <aside class="ticket-properties">
+              <section class="panel">
+                <div class="panel-heading">
+                  <h2>Ticket details</h2>
+                  <av-icon name="ticket" />
+                </div>
+                <div class="property-body">
+                  @if (staff()) {
+                    <label for="detail-status">Status</label
+                    ><select
+                      id="detail-status"
+                      [ngModel]="detail.ticket.status"
+                      (ngModelChange)="updateTicket({ status: $event })"
+                      [disabled]="saving() || detail.ticket.status === 'Closed'"
+                    >
+                      <option [value]="detail.ticket.status">
+                        {{ label(detail.ticket.status) }}
+                      </option>
+                      @for (
+                        value of transitions(detail.ticket.status);
+                        track value
+                      ) {
+                        <option [value]="value">{{ label(value) }}</option>
+                      }</select
+                    ><label for="detail-priority">Priority</label
+                    ><select
+                      id="detail-priority"
+                      [ngModel]="detail.ticket.priority"
+                      (ngModelChange)="updateTicket({ priority: $event })"
+                      [disabled]="saving()"
+                    >
+                      @for (value of priorities; track value) {
+                        <option [value]="value">{{ value }}</option>
+                      }</select
+                    ><label for="detail-assignee">Assigned to</label
+                    ><select
+                      id="detail-assignee"
+                      [ngModel]="detail.ticket.assigneeId || ''"
+                      (ngModelChange)="
+                        updateTicket({ assigneeId: $event || null })
+                      "
+                      [disabled]="saving()"
+                    >
+                      <option value="">Unassigned</option>
+                      @for (agent of agents(); track agent.id) {
+                        <option [value]="agent.id">{{ agent.name }}</option>
+                      }
+                    </select>
+                  } @else {
+                    <div class="property-static">
+                      <span>Priority</span
+                      ><strong>{{ detail.ticket.priority }}</strong>
+                    </div>
+                    <div class="property-static">
+                      <span>Assigned to</span
+                      ><strong>{{
+                        detail.ticket.assigneeName || "Support team"
+                      }}</strong>
+                    </div>
+                  }
+                  <div class="property-static">
+                    <span>Category</span
+                    ><strong>{{ detail.ticket.category }}</strong>
+                  </div>
+                  <div class="property-static">
+                    <span>Channel</span
+                    ><strong>{{ detail.ticket.channel }}</strong>
+                  </div>
+                  @if (detail.ticket.tags.length) {
+                    <div class="tags">
+                      @for (tag of detail.ticket.tags; track tag) {
+                        <span><av-icon name="tag" />{{ tag }}</span>
+                      }
+                    </div>
+                  }
+                </div>
+              </section>
+              <section class="panel customer-panel">
+                <div class="panel-heading">
+                  <h2>Customer</h2>
+                  <av-icon name="customers" />
+                </div>
+                <div class="customer-card">
+                  <span class="avatar large avatar-1">{{
+                    initials(detail.ticket.customerName)
+                  }}</span
+                  ><strong>{{ detail.ticket.customerName }}</strong
+                  ><span>{{ detail.ticket.customerEmail }}</span>
+                </div>
+              </section>
+              <section class="panel">
+                <div class="panel-heading">
+                  <h2>Service targets</h2>
+                  <av-icon name="clock" />
+                </div>
+                <div class="sla-details">
+                  <div>
+                    <span>First response</span
+                    ><strong>{{
+                      detail.ticket.firstRespondedAt
+                        ? "Responded"
+                        : (detail.ticket.responseDueAt | date: "MMM d, h:mm a")
+                    }}</strong>
+                  </div>
+                  <div>
+                    <span>Resolution due</span
+                    ><strong>{{
+                      detail.ticket.resolutionDueAt | date: "MMM d, h:mm a"
+                    }}</strong>
+                  </div>
+                  <span [class]="'badge sla-' + sla(detail.ticket).state"
+                    ><span class="status-dot"></span
+                    >{{ sla(detail.ticket).label }}</span
+                  >
+                  @if (detail.ticket.isEscalated) {
+                    <span class="badge status-Pending"
+                      >Escalated to the team</span
+                    >
+                  }
+                </div>
+              </section>
+              @if (staff()) {
+                <section class="panel">
+                  <div class="panel-heading"><h2>Activity</h2></div>
+                  <div class="activity-list">
+                    @for (event of detail.history.slice(0, 8); track event.id) {
+                      <div>
+                        <span class="activity-dot"></span>
+                        <p>
+                          {{ event.description
+                          }}<small
+                            >{{ event.actorName }} ·
+                            {{ relative(event.createdAt) }}</small
+                          >
+                        </p>
+                      </div>
+                    } @empty {
+                      <p class="empty-inline">No updates yet.</p>
+                    }
+                  </div>
+                </section>
+              }
+            </aside>
+          </div>
+        }
+        @if (page() === "customers") {
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow">PEOPLE BEFORE TICKETS</span>
+              <h1>
+                Your customers<span class="heading-count">{{
+                  customers().length
+                }}</span>
+              </h1>
+              <p>
+                The people behind every conversation. Their context, at a
+                glance.
+              </p>
+            </div>
+            @if (admin()) {
+              <button class="button primary" (click)="openUserDialog(true)">
+                <av-icon name="plus" />Add customer
+              </button>
+            }
+          </div>
+          <section class="panel">
+            <div class="filters">
+              <div class="input-icon table-search">
+                <av-icon name="search" /><input
+                  aria-label="Search customers"
+                  placeholder="Search by name, email, or company…"
+                  [(ngModel)]="customerSearch"
+                />
+              </div>
+              <span class="muted"
+                >{{ filteredCustomers().length }} customers</span
+              >
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Company</th>
+                    <th>Total tickets</th>
+                    <th>Open tickets</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (
+                    customer of filteredCustomers();
+                    track customer.id;
+                    let i = $index
+                  ) {
+                    <tr>
+                      <td>
+                        <div class="person">
+                          <span [class]="'avatar avatar-' + (i % 5)">{{
+                            initials(customer.name)
+                          }}</span>
+                          <div>
+                            <strong>{{ customer.name }}</strong
+                            ><span class="table-sub">{{ customer.email }}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{ customer.company || "—" }}</td>
+                      <td>{{ customer.ticketCount }}</td>
+                      <td>
+                        <span class="subtle-count">{{
+                          customer.openTicketCount
+                        }}</span>
+                      </td>
+                      <td>
+                        <button
+                          class="text-button"
+                          (click)="customerTickets(customer)"
+                        >
+                          View tickets<av-icon name="arrow" />
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="5">
+                        <div class="empty-state">
+                          <av-icon name="customers" /><strong
+                            >No matching customers</strong
+                          ><span>Try another name, email, or company.</span>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+        @if (page() === "team") {
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow">GOOD SUPPORT STARTS WITH GOOD PEOPLE</span>
+              <h1>
+                Your team<span class="heading-count">{{
+                  filteredTeam().length
+                }}</span>
+              </h1>
+              <p>A shared workspace. A common purpose. A better experience.</p>
+            </div>
+            @if (admin()) {
+              <button class="button primary" (click)="openUserDialog()">
+                <av-icon name="plus" />Add team member
+              </button>
+            }
+          </div>
+          <section class="panel">
+            <div class="filters">
+              <div class="input-icon table-search">
+                <av-icon name="search" /><input
+                  aria-label="Search team members"
+                  placeholder="Search your team…"
+                  [(ngModel)]="teamSearch"
+                />
+              </div>
+              <span class="muted">{{ user()!.organizationName }}</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Team member</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    @if (admin()) {
+                      <th>Access</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (
+                    member of filteredTeam();
+                    track member.id;
+                    let i = $index
+                  ) {
+                    <tr>
+                      <td>
+                        <div class="person">
+                          <span [class]="'avatar avatar-' + (i % 5)">{{
+                            initials(member.name)
+                          }}</span>
+                          <div>
+                            <strong
+                              >{{ member.name }}
+                              @if (member.id === user()!.id) {
+                                <span class="you-label">You</span>
+                              }</strong
+                            ><span class="table-sub">{{ member.email }}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        @if (admin()) {
+                          <select
+                            class="inline-select"
+                            aria-label="Change role for {{ member.name }}"
+                            [ngModel]="member.role"
+                            (ngModelChange)="
+                              changeUser(member, { role: $event })
+                            "
+                            [disabled]="saving()"
+                          >
+                            <option value="Admin">Administrator</option>
+                            <option value="Agent">Support agent</option>
+                          </select>
+                        } @else {
+                          {{
+                            member.role === "Admin"
+                              ? "Administrator"
+                              : "Support agent"
+                          }}
+                        }
+                      </td>
+                      <td>
+                        <span
+                          [class]="
+                            'badge ' +
+                            (member.isActive
+                              ? 'status-Resolved'
+                              : 'status-Closed')
+                          "
+                          ><span class="status-dot"></span
+                          >{{ member.isActive ? "Active" : "Inactive" }}</span
+                        >
+                      </td>
+                      @if (admin()) {
+                        <td>
+                          <button
+                            class="text-button"
+                            [class.danger-text]="member.isActive"
+                            [disabled]="saving()"
+                            (click)="
+                              changeUser(member, { isActive: !member.isActive })
+                            "
+                          >
+                            {{ member.isActive ? "Deactivate" : "Reactivate" }}
+                          </button>
+                        </td>
+                      }
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="4">
+                        <div class="empty-state">
+                          <av-icon name="team" /><strong
+                            >No matching team members</strong
+                          ><span>Try another name or email.</span>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <p class="under-panel-note">
+            <av-icon name="shield" />Administrators manage workspace settings
+            and access. Agents manage customer conversations.
+          </p>
+        }
+        @if (page() === "reports") {
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow">INSIGHT INTO BETTER SUPPORT</span>
+              <h1>Every number tells a story.</h1>
+              <p>Understand your team's activity and find room to grow.</p>
+            </div>
+            <div class="heading-actions">
+              <select
+                aria-label="Report date range"
+                [(ngModel)]="days"
+                (ngModelChange)="loadPage()"
+              >
+                <option [ngValue]="7">Last 7 days</option>
+                <option [ngValue]="30">Last 30 days</option>
+                <option [ngValue]="90">Last 90 days</option></select
+              ><button class="button secondary" (click)="exportReport()">
+                <av-icon name="export" />Export CSV
+              </button>
+            </div>
+          </div>
+          @if (dashboard(); as data) {
+            <div class="metric-grid">
+              <article class="metric-card">
+                <div class="metric-label">
+                  Tickets created<av-icon name="ticket" />
+                </div>
+                <div class="metric-value">{{ data.totalTickets }}</div>
+                <span class="metric-caption">In the selected period</span>
+              </article>
+              <article class="metric-card">
+                <div class="metric-label">
+                  Tickets resolved<av-icon name="checkcircle" />
+                </div>
+                <div class="metric-value">{{ data.resolvedTickets }}</div>
+                <span class="metric-caption"
+                  >Created in the selected period</span
+                >
+              </article>
+              <article class="metric-card">
+                <div class="metric-label">
+                  SLA compliance<av-icon name="shield" />
+                </div>
+                <div class="metric-value">
+                  {{ data.slaCompliance | number: "1.0-1" }}<small>%</small>
+                </div>
+                <span class="metric-caption"
+                  >Response and resolution targets</span
+                >
+              </article>
+              <article class="metric-card">
+                <div class="metric-label">
+                  Avg. first response<av-icon name="clock" />
+                </div>
+                <div class="metric-value time-metric">
+                  {{ responseTime(data.averageResponseMinutes) }}
+                </div>
+                <span class="metric-caption">Based on responded tickets</span>
+              </article>
+            </div>
+            <div class="reports-grid">
+              <section class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <h2>Tickets by status</h2>
+                    <p>Where conversations stand today.</p>
+                  </div>
+                </div>
+                <div class="report-status">
+                  <div class="segmented-bar">
+                    @for (item of data.byStatus; track item.status) {
+                      <span
+                        [class]="'segment segment-' + item.status"
+                        [style.width.%]="(item.count / totalStatus()) * 100"
+                        [title]="label(item.status) + ': ' + item.count"
+                      ></span>
+                    }
+                  </div>
+                  @for (item of data.byStatus; track item.status) {
+                    <div class="report-status-row">
+                      <span [class]="'badge status-' + item.status"
+                        ><span class="status-dot"></span
+                        >{{ label(item.status) }}</span
+                      ><span
+                        >{{ item.count }}
+                        <small
+                          >{{
+                            (item.count / totalStatus()) * 100
+                              | number: "1.0-0"
+                          }}%</small
+                        ></span
+                      >
+                    </div>
+                  }
+                </div>
+              </section>
+              <section class="panel">
+                <div class="panel-heading">
+                  <div>
+                    <h2>Conversations by category</h2>
+                    <p>What your customers need help with.</p>
+                  </div>
+                </div>
+                <div class="category-bars">
+                  @for (item of data.byCategory; track item.category) {
+                    <div>
+                      <div>
+                        <span>{{ item.category }}</span
+                        ><strong>{{ item.count }}</strong>
+                      </div>
+                      <div class="category-track">
+                        <span
+                          [style.width.%]="
+                            (item.count / (data.totalTickets || 1)) * 100
+                          "
+                        ></span>
+                      </div>
+                    </div>
+                  } @empty {
+                    <p class="empty-inline">No conversations in this period.</p>
+                  }
+                </div>
+              </section>
+            </div>
+            <section class="panel report-team">
+              <div class="panel-heading">
+                <div>
+                  <h2>Team contribution</h2>
+                  <p>
+                    Current workload and resolutions in the selected period.
+                  </p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Team member</th>
+                      <th>Role</th>
+                      <th>Active conversations</th>
+                      <th>Tickets resolved</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (
+                      member of data.team;
+                      track member.id;
+                      let i = $index
+                    ) {
+                      <tr>
+                        <td>
+                          <div class="person">
+                            <span [class]="'avatar avatar-' + (i % 5)">{{
+                              initials(member.name)
+                            }}</span
+                            ><strong>{{ member.name }}</strong>
+                          </div>
+                        </td>
+                        <td>{{ member.role }}</td>
+                        <td>{{ member.activeTickets }}</td>
+                        <td>{{ member.resolvedTickets }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          }
+        }
+        @if (page() === "audit") {
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow">A CLEAR RECORD OF EVERY CHANGE</span>
+              <h1>Audit history</h1>
+              <p>Accountable by design. See who did what, and when.</p>
+            </div>
+            <button class="button secondary" (click)="loadPage()">
+              <av-icon name="audit" />Refresh history
+            </button>
+          </div>
+          <section class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Activity</th>
+                    <th>Performed by</th>
+                    <th>Date and time</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (event of audits().items; track event.id) {
+                    <tr>
+                      <td>
+                        <strong>{{ event.action }}</strong
+                        ><span class="table-sub audit-description">{{
+                          event.description
+                        }}</span>
+                      </td>
+                      <td>{{ event.actorName }}</td>
+                      <td class="muted">
+                        {{ event.createdAt | date: "MMM d, y, h:mm a" }}
+                      </td>
+                      <td>
+                        @if (event.ticketId) {
+                          <button
+                            class="text-button"
+                            (click)="openTicket(event.ticketId)"
+                          >
+                            View ticket<av-icon name="arrow" />
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="4">
+                        <div class="empty-state">
+                          <av-icon name="audit" /><strong>A fresh start</strong
+                          ><span>Workspace activity will appear here.</span>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <span>{{ audits().total }} recorded events</span>
+              <div>
+                <button
+                  class="button secondary small-button"
+                  [disabled]="auditPage === 1"
+                  (click)="auditPageBy(-1)"
+                >
+                  Previous</button
+                ><span class="page-number">{{ auditPage }}</span
+                ><button
+                  class="button secondary small-button"
+                  [disabled]="auditPage * 20 >= audits().total"
+                  (click)="auditPageBy(1)"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </section>
+        }
+        @if (page() === "settings" && settingsForm; as settings) {
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow">A WORKSPACE THAT WORKS FOR YOU</span>
+              <h1>Workspace settings</h1>
+              <p>Fine-tune how your team delivers thoughtful support.</p>
+            </div>
+            <button
+              class="button primary"
+              form="settings-form"
+              [disabled]="saving()"
+            >
+              {{ saving() ? "Saving…" : "Save changes"
+              }}<av-icon name="check" />
+            </button>
+          </div>
+          <form
+            id="settings-form"
+            class="settings-form"
+            (ngSubmit)="saveSettings()"
+          >
+            <section class="panel settings-section">
+              <div class="settings-description">
+                <span class="settings-icon"><av-icon name="globe" /></span>
+                <h2>Workspace details</h2>
+                <p>Your shared identity and working context.</p>
+              </div>
+              <div class="settings-fields">
+                <label for="workspace-name">Workspace name</label
+                ><input
+                  id="workspace-name"
+                  name="workspace-name"
+                  [(ngModel)]="settings.organizationName"
+                  minlength="2"
+                  maxlength="100"
+                  required
+                /><label for="workspace-slug">Workspace ID</label
+                ><input
+                  id="workspace-slug"
+                  name="workspace-slug"
+                  [(ngModel)]="settings.organizationSlug"
+                  readonly
+                /><small
+                  >This is the identifier your team uses to sign in.</small
+                ><label for="business-hours">Business hours description</label
+                ><input
+                  id="business-hours"
+                  name="business-hours"
+                  [(ngModel)]="settings.businessHours"
+                  maxlength="100"
+                /><small
+                  >For your team's reference. SLA deadlines run continuously, in
+                  elapsed minutes.</small
+                >
+              </div>
+            </section>
+            <section class="panel settings-section">
+              <div class="settings-description">
+                <span class="settings-icon"><av-icon name="team" /></span>
+                <h2>Ticket assignment</h2>
+                <p>Help each conversation find the right owner.</p>
+              </div>
+              <div class="settings-fields">
+                <label for="assignment-strategy">Assignment strategy</label
+                ><select
+                  id="assignment-strategy"
+                  name="assignment-strategy"
+                  [(ngModel)]="settings.assignmentStrategy"
+                >
+                  <option value="Manual">Manual assignment</option>
+                  <option value="LeastBusy">Least busy agent</option>
+                  <option value="RoundRobin">Round robin</option></select
+                ><small
+                  >Applies when new tickets are created. Existing assignments
+                  stay as they are.</small
+                >
+                <div class="settings-info">
+                  <av-icon name="info" />
+                  <p>
+                    {{
+                      settings.assignmentStrategy === "Manual"
+                        ? "Tickets enter the unassigned queue until a teammate takes ownership."
+                        : settings.assignmentStrategy === "LeastBusy"
+                          ? "New tickets go to the available agent with the fewest active tickets."
+                          : "New tickets are distributed across active agents in sequence."
+                    }}
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section class="panel settings-section">
+              <div class="settings-description">
+                <span class="settings-icon"><av-icon name="clock" /></span>
+                <h2>Service level policies</h2>
+                <p>Set a clear promise for every priority level.</p>
+                <small
+                  >New policies apply to future tickets. Existing ticket
+                  deadlines retain their original targets.</small
+                >
+              </div>
+              <div class="settings-fields sla-policy-fields">
+                <div class="sla-policy-header">
+                  <span>Priority</span
+                  ><span>First response<br /><small>minutes</small></span
+                  ><span>Resolution<br /><small>minutes</small></span>
+                </div>
+                @for (policy of settings.slaPolicies; track policy.priority) {
+                  <div class="sla-policy-row">
+                    <span [class]="'priority priority-' + policy.priority"
+                      ><span class="priority-bars">▂▅▇</span
+                      >{{ policy.priority }}</span
+                    ><input
+                      type="number"
+                      [name]="'response-' + policy.priority"
+                      [attr.aria-label]="
+                        policy.priority + ' response target in minutes'
+                      "
+                      [(ngModel)]="policy.responseMinutes"
+                      min="1"
+                      max="43200"
+                      required
+                    /><input
+                      type="number"
+                      [name]="'resolution-' + policy.priority"
+                      [attr.aria-label]="
+                        policy.priority + ' resolution target in minutes'
+                      "
+                      [(ngModel)]="policy.resolutionMinutes"
+                      min="1"
+                      max="43200"
+                      required
+                    />
+                  </div>
+                }
+              </div>
+            </section>
+          </form>
+        }
+      </main>
+    </div>
+  </div>
+}
+
+<dialog #ticketDialog class="modal" aria-labelledby="create-ticket-title">
+  <form (ngSubmit)="createTicket()">
+    <div class="modal-heading">
+      <div>
+        <span class="eyebrow">START A HELPFUL CONVERSATION</span>
+        <h2 id="create-ticket-title">Create a ticket</h2>
+      </div>
+      <button
+        type="button"
+        class="icon-button"
+        aria-label="Close create ticket dialog"
+        (click)="ticketDialog.close()"
+      >
+        <av-icon name="close" />
+      </button>
+    </div>
+    <div class="modal-body">
+      @if (staff()) {
+        <label for="create-customer"
+          >Customer <span class="required">*</span></label
+        ><select
+          id="create-customer"
+          name="customer"
+          [(ngModel)]="create.customerId"
+          required
+        >
+          <option value="">Choose a customer</option>
+          @for (customer of customers(); track customer.id) {
+            <option [value]="customer.id">
+              {{ customer.name }} · {{ customer.email }}
+            </option>
+          }
+        </select>
+      }
+      <label for="create-subject">Subject <span class="required">*</span></label
+      ><input
+        id="create-subject"
+        name="subject"
+        [(ngModel)]="create.subject"
+        minlength="5"
+        maxlength="180"
+        placeholder="A clear summary of the issue"
+        required
+      /><label for="create-description"
+        >Description <span class="required">*</span></label
+      ><textarea
+        id="create-description"
+        name="description"
+        [(ngModel)]="create.description"
+        rows="5"
+        minlength="10"
+        maxlength="10000"
+        placeholder="Share the context and details that will help us help you…"
+        required
+      ></textarea>
+      <div class="form-columns">
+        <div>
+          <label for="create-priority">Priority</label
+          ><select
+            id="create-priority"
+            name="priority"
+            [(ngModel)]="create.priority"
+          >
+            @for (value of priorities; track value) {
+              <option [value]="value">{{ value }}</option>
+            }
+          </select>
+        </div>
+        <div>
+          <label for="create-category">Category</label
+          ><select
+            id="create-category"
+            name="category"
+            [(ngModel)]="create.category"
+          >
+            <option>General</option>
+            <option>Billing</option>
+            <option>Technical</option>
+            <option>Account</option>
+            <option>Feature request</option>
+          </select>
+        </div>
+      </div>
+      <label for="create-tags">Tags <span class="muted">(optional)</span></label
+      ><input
+        id="create-tags"
+        name="tags"
+        [(ngModel)]="create.tags"
+        placeholder="e.g. onboarding, integration"
+      /><small>Separate tags with commas.</small>
+      @if (createError) {
+        <p class="form-error" role="alert">{{ createError }}</p>
+      }
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="button secondary"
+        (click)="ticketDialog.close()"
+      >
+        Cancel</button
+      ><button class="button primary" [disabled]="saving()">
+        {{ saving() ? "Creating…" : "Create ticket" }}<av-icon name="arrow" />
+      </button>
+    </div>
+  </form>
+</dialog>
+<dialog #userDialog class="modal" aria-labelledby="user-dialog-title">
+  <form (ngSubmit)="createUser()">
+    <div class="modal-heading">
+      <div>
+        <span class="eyebrow">{{
+          customerForm ? "PEOPLE BEFORE TICKETS" : "GROW YOUR SUPPORT TEAM"
+        }}</span>
+        <h2 id="user-dialog-title">
+          {{ customerForm ? "Add a customer" : "Add a team member" }}
+        </h2>
+      </div>
+      <button
+        type="button"
+        class="icon-button"
+        aria-label="Close user account dialog"
+        (click)="userDialog.close()"
+      >
+        <av-icon name="close" />
+      </button>
+    </div>
+    <div class="modal-body">
+      <label for="user-name">Full name</label
+      ><input
+        id="user-name"
+        name="name"
+        [(ngModel)]="userForm.name"
+        required
+        minlength="2"
+        maxlength="80"
+        autocomplete="off"
+      /><label for="user-email">Email address</label
+      ><input
+        id="user-email"
+        name="email"
+        type="email"
+        [(ngModel)]="userForm.email"
+        required
+        autocomplete="off"
+      /><label for="user-role">Role</label
+      ><select
+        [disabled]="customerForm"
+        id="user-role"
+        name="role"
+        [(ngModel)]="userForm.role"
+      >
+        <option value="Agent">Support agent</option>
+        <option value="Admin">Administrator</option>
+        <option value="Customer">Customer</option></select
+      ><label for="user-password">Initial password</label
+      ><input
+        id="user-password"
+        name="initial-password"
+        type="password"
+        [(ngModel)]="userForm.password"
+        required
+        minlength="12"
+        maxlength="128"
+        autocomplete="new-password"
+      /><small
+        >At least 12 characters with uppercase, lowercase, a number, and a
+        symbol. Share securely with the account holder.</small
+      >
+      @if (userError) {
+        <p class="form-error" role="alert">{{ userError }}</p>
+      }
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="button secondary"
+        (click)="userDialog.close()"
+      >
+        Cancel</button
+      ><button class="button primary" [disabled]="saving()">
+        {{
+          saving()
+            ? "Adding…"
+            : customerForm
+              ? "Add customer"
+              : "Add team member"
+        }}<av-icon name="plus" />
+      </button>
+    </div>
+  </form>
+</dialog>
+<dialog
+  #notificationsDialog
+  class="modal notifications-modal"
+  aria-labelledby="notifications-title"
+>
+  <div class="modal-heading">
+    <div>
+      <span class="eyebrow">STAY IN THE LOOP</span>
+      <h2 id="notifications-title">
+        Notifications<span class="heading-count">{{ unread() }}</span>
+      </h2>
+    </div>
+    <button
+      class="icon-button"
+      aria-label="Close notifications"
+      (click)="notificationsDialog.close()"
+    >
+      <av-icon name="close" />
+    </button>
+  </div>
+  <div class="notifications-toolbar">
+    <span>{{ unread() }} unread updates</span
+    ><button
+      class="text-button"
+      [disabled]="!unread()"
+      (click)="readNotifications()"
+    >
+      Mark all as read<av-icon name="check" />
+    </button>
+  </div>
+  <div class="notifications-list">
+    @for (notification of notifications(); track notification.id) {
+      <button
+        class="notification-item"
+        [class.unread]="!notification.isRead"
+        (click)="notificationClick(notification)"
+      >
+        <span class="notification-icon"><av-icon name="bell" /></span
+        ><span
+          ><strong>{{ notification.title }}</strong
+          ><span>{{ notification.body }}</span
+          ><small>{{ relative(notification.createdAt) }}</small></span
+        >
+        @if (!notification.isRead) {
+          <span class="unread-marker"></span>
+        }
+      </button>
+    } @empty {
+      <div class="empty-state">
+        <av-icon name="checkcircle" /><strong>You're all caught up</strong
+        ><span>Ticket updates and service alerts will appear here.</span>
+      </div>
+    }
+  </div>
+</dialog>
+@if (toast()) {
+  <div
+    class="toast"
+    [class.error-toast]="toastError()"
+    role="status"
+    aria-live="polite"
+  >
+    <av-icon [name]="toastError() ? 'info' : 'checkcircle'" /><span>{{
+      toast()
+    }}</span
+    ><button
+      class="icon-button"
+      aria-label="Dismiss notification"
+      (click)="toast.set('')"
+    >
+      <av-icon name="close" />
+    </button>
+  </div>
+}

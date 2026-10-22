@@ -1,0 +1,15 @@
+**/node_modules
+**/bin
+**/obj
+**/.angular
+**/dist
+.git
+.local
+.env
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/TestResults
+**/test-results
+docs/assets/*.png
+docs/assets/*.jpg
